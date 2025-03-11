@@ -1,3 +1,20 @@
+"""
+This script creates a Flask web application that provides a chatbot API for answering questions about specific motorcycle models.
+Modules:
+    flask: A micro web framework for Python.
+    g4f: A module for interacting with the g4f API.
+Constants:
+    ALLOWED_MODELS (set): A set of allowed motorcycle models.
+Routes:
+    / (GET): Renders the index.html template.
+    /api/chat (POST): Accepts a JSON payload with a motorcycle model and a question, and returns a response from the g4f API.
+Functions:
+    index(): Renders the index.html template.
+    chat(): Handles the chat API endpoint, validates the input, and returns a response from the g4f API.
+Usage:
+    Run this script to start the Flask web application. The application will be available at http://127.0.0.1:5000/ by default.
+
+"""
 from flask import Flask, request, jsonify, render_template
 import g4f
 
