@@ -52,7 +52,7 @@ The chatbot uses the `g4f` API to generate responses. The AI model interacts wit
 This project is open-source and free to use.
 
 ## Author
-Developed by [Your Name].
+Developed by Jonathan Fernandez.
 
 ## Acknowledgments
 Special thanks to the `g4f` API contributors for providing a free AI-based solution.
