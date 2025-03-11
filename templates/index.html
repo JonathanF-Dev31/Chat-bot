@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorcycle Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        select, textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .feedback {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .feedback button {
+            width: 48%;
+            background-color: #28a745;
+        }
+        .feedback button:last-child {
+            background-color: #dc3545;
+        }
+        .feedback button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Motorcycle Assistant</h2>
+        <label for="bike-model">Select a model:</label>
+        <select id="bike-model">
+            <option value="">-- Select --</option>
+            <option value="Pulsar N160">Pulsar N160</option>
+            <option value="Pulsar NS200">Pulsar NS200</option>
+            <option value="Pulsar 220F">Pulsar 220F</option>
+            <option value="Pulsar RS200">Pulsar RS200</option>
+        </select>
+        
+        <textarea id="question" placeholder="Type your question..."></textarea>
+        <button onclick="sendQuestion()">Send</button>
+        
+        <div id="response"></div>
+        
+        <div class="feedback">
+            <button onclick="feedback(true)">✅ Useful</button>
+            <button onclick="feedback(false)">❌ Not useful</button>
+        </div>
+    </div>
+    
+    <script>
+        function sendQuestion() {
+            const model = document.getElementById("bike-model").value;
+            const question = document.getElementById("question").value;
+            const responseDiv = document.getElementById("response");
+            
+            if (!model || !question) {
+                responseDiv.innerHTML = "⚠️ Please select a model and enter a question.";
+                return;
+            }
+            
+            responseDiv.innerHTML = "⌛ Loading response...";
+            
+            fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ model, question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseDiv.innerHTML = data.response;
+            })
+            .catch(error => {
+                responseDiv.innerHTML = "❌ Error retrieving the response.";
+            });
+        }
+
+        function feedback(useful) {
+            alert(useful ? "Thank you for your positive feedback!" : "We're sorry the response was not helpful.");
+        }
+    </script>
+</body>
+</html>
+
